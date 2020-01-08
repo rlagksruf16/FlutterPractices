@@ -24,7 +24,7 @@ class MyApp extends StatelessWidget {
                 style: TextStyle(
                   fontFamily: 'PressStart2P',
                   fontSize: 20.0,
-                  color: Colors.white,
+                  color: Colors.red,
                 ),
               ),
               Text(

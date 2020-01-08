@@ -18,12 +18,23 @@ class MyApp extends StatelessWidget {
             children: <Widget>[
               Container(
                 width:100.0,
-                color: Colors.red,
+                color: Colors.green,
               ),
-              SizedBox(
-                width: 100.0,
+              Expanded(
                 child: Column(
-                  
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                      Container(
+                        width: 100.0,
+                        height: 100.0,
+                        color: Colors.yellow,
+                      ),
+                      Container(
+                        width: 100.0,
+                        height: 100.0,
+                        color: Colors.green,
+                      ),
+                  ],
                 )
               ),
               Container(
