@@ -1,50 +1,48 @@
 import 'package:flutter/material.dart';
+import 'package:audioplayers/audio_cache.dart';
 
-void main() => runApp(Drumkit());
 
-class Drumkit extends StatelessWidget {
+void main() => runApp(XylophoneApp());
+
+class XylophoneApp extends StatelessWidget {
+
+  void playSound(int x) {
+    final player = AudioCache(); // 버튼이 클릭되면 새로운 플레이어 변수를 생성
+    player.play('note$x.wav');
+  }
+
+  Expanded buildKey({Color color, int soundNumber }) {
+    return Expanded(
+      child: FlatButton(
+        color: color,
+        onPressed: () {
+          playSound(soundNumber);
+        },
+      ),
+    );
+  }
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       home: Scaffold(
         backgroundColor: Colors.black,
         body: SafeArea(
-          child: Row(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
             children: <Widget>[
-              Container(
-                decoration: BoxDecoration(color: Colors.white),
-                child: Column(
-                  children: <Widget>[
-                    Container(
-                      color: Colors.red,
-                    ),
-                    Container( ),
-                    Container(),
-                  ],
-                ),
-              ),
-              Container(
-                child: Column(
-                  children: <Widget>[
-                    Container(),
-                    Container(),
-                    Container(),
-                  ],
-                ),
-              ),
-              Container(
-                child: Column(
-                  children: <Widget>[
-                    Container(),
-                    Container(),
-                    Container(),
-                  ],
-                ),
-              ),
+              buildKey(color: Colors.red, soundNumber: 1),
+              buildKey(color: Colors.orange, soundNumber: 2),
+              buildKey(color: Colors.yellow, soundNumber: 3),
+              buildKey(color: Colors.green, soundNumber: 4),
+              buildKey(color: Colors.blue, soundNumber: 5),
+              buildKey(color: Colors.purple, soundNumber: 6),
+              buildKey(color: Colors.grey, soundNumber: 7),
+              buildKey(color: Colors.white, soundNumber: 8),
+              buildKey(color: Colors.lightBlue, soundNumber: 9),
             ],
+          )
           ),
         ),
-      ),
     );
   }
 }
