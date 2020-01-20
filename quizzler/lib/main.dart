@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 // import 'question.dart';
+import 'package:rflutter_alert/rflutter_alert.dart';
 import 'quizbrain.dart';
 
 QuizBrain quizBrain = QuizBrain();
@@ -29,10 +30,53 @@ class QuizPage extends StatefulWidget {
 }
 
 class _QuizPageState extends State<QuizPage> {
-
+  int correctnum = 0;
   List<Icon> scoreKeeper = [];
 
   // int questionNumber = 0;
+
+  void checkAnswer(bool userPickedAnswer) {
+    bool correctAnswer = quizBrain.getQuestionAnswer();
+
+    setState(() {
+    if(quizBrain.isFinished() == true) {
+      Alert(
+        context: context,
+        type: AlertType.error,
+        title: "끝",
+        desc: "총 $correctnum 개 맞췄어요!", 
+        buttons: [
+          DialogButton(
+            child: Text(
+              "다시 처음부터",
+              style: TextStyle(color: Colors.white),
+            ),
+            onPressed: () => Navigator.pop(context),
+          ),
+        ]
+      ).show();
+      quizBrain.reset();
+      correctnum = 0;
+      scoreKeeper = [];
+    }
+    else {
+      if (userPickedAnswer == correctAnswer) {
+        correctnum++;
+        scoreKeeper.add(Icon(
+          Icons.check, 
+          color: Colors.green,
+        ));
+
+      } else {
+        scoreKeeper.add(Icon(
+          Icons.close, 
+          color: Colors.red, 
+        ));
+        }
+        quizBrain.nextQuestion();
+      }
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -71,18 +115,9 @@ class _QuizPageState extends State<QuizPage> {
                 ),
               ),
               onPressed: () {
+                
+                checkAnswer(true);
 
-                bool correctAnswer = quizBrain.getQuestionAnswer();
-
-                if(correctAnswer == true) {
-                  print('맞췄어요!');
-                }
-                else {
-                  print('틀렸어요!');
-                }
-                setState(() {
-                  quizBrain.nextQuestion();
-                });
               },
             ),
           ),
@@ -101,19 +136,7 @@ class _QuizPageState extends State<QuizPage> {
                 ),
               ),
               onPressed: () {
-
-                bool correctAnswer = quizBrain.getQuestionAnswer();
-                
-                if(correctAnswer == false) {
-                  print('맞췄어요');
-                }
-                else {
-                  print('틀렸어요');
-                }
-
-                setState(() {
-                  quizBrain.nextQuestion();
-                });
+                checkAnswer(false);
               },
             ),
           ),
