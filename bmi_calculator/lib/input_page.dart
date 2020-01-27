@@ -1,3 +1,4 @@
+import 'package:bmi_calculator/conclution.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/basic.dart';
 import 'package:flutter/src/widgets/basic.dart';
@@ -8,7 +9,9 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'Icon_content.dart';
 import 'Reuseable_card.dart';
 import 'constants.dart';
-
+import 'conclution.dart';
+import 'bottomButton.dart';
+import 'calculator.dart';
 
 
 
@@ -27,6 +30,7 @@ class _InputPageState extends State<InputPage> {
   Gender selectedGender;
   int height = 180;
   int weight = 60;
+  int age = 20;
 
   @override
   Widget build(BuildContext context) {
@@ -169,22 +173,67 @@ class _InputPageState extends State<InputPage> {
                 Expanded(
                   child: ReuseableCard(
                     colour: backgroundColor,
+                    cardChild: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        Text(
+                          '나이',
+                          style: labelTextStyle,
+                        ),
+                        Text(
+                          age.toString(),
+                          style: kBigTextStyle,
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: <Widget>[
+                            RoundiconButton(
+                              icon: FontAwesomeIcons.minus,
+                              onPressed: () {
+                                setState(() {
+                                  age--;
+                                });
+                              }
+                            ),
+                            SizedBox(
+                              width: 10.0,
+                            ),
+                            RoundiconButton(
+                              icon: FontAwesomeIcons.plus,
+                              onPressed: () {
+                                setState(() {
+                                  age++;
+                                });
+                              },
+                            ),
+                          ],
+                        )
+                      ],
+                    ),
                   ),
                 ),
               ],
             ),
           ),
-          Container(
-            color: kBottomColor,
-            margin: EdgeInsets.only(top: 10.0),
-            width: double.infinity,
-            height: kBottomContainerHeights,
-          )
+          BottomButton(
+            buttonTitle: '계산하기', 
+            onTap: () {
+
+              Calculator calc = Calculator(height: height, weight: weight);
+
+              Navigator.push(context, MaterialPageRoute(builder: (context) => ResultsPage(
+                bmiResult: calc.calculateBMI(),
+                resultText: calc.getResult(),
+                interpretation: calc.getInterpretation(),
+              )));
+            },
+          ),
         ],
       ),
     );
   }
 }
+
 
 
 
