@@ -2,6 +2,7 @@ import 'package:chat_service/screens/login_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:chat_service/screens/registration_screen.dart';
 import 'package:chat_service/main.dart';
+import 'package:animated_text_kit/animated_text_kit.dart';
 
 class WelcomeScreen extends StatefulWidget {
   
@@ -35,9 +36,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> with SingleTickerProvider
 
     controller.addListener(() {
       setState(() {
-        
       });
-      print(animation.value);
     });
   }
 
@@ -67,9 +66,9 @@ class _WelcomeScreenState extends State<WelcomeScreen> with SingleTickerProvider
                     height: 60.0,
                   ),
                 ),
-                Text(
-                  '번개 채팅',
-                  style: TextStyle(
+                TypewriterAnimatedTextKit(
+                  text: ['번개 채팅'],
+                  textStyle: TextStyle(
                     fontSize: 45.0,
                     fontWeight: FontWeight.w900,
                   ),
