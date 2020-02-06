@@ -2,6 +2,8 @@ import 'package:chat_service/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:chat_service/components/roundedButton.dart';
 import 'package:chat_service/constants.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'chat_screen.dart';
 
 class RegistrationScreen extends StatefulWidget {
 
@@ -12,6 +14,10 @@ class RegistrationScreen extends StatefulWidget {
 }
 
 class _RegistrationScreenState extends State<RegistrationScreen> {
+  final _auth = FirebaseAuth.instance;
+  String email;
+  String password;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -33,8 +39,10 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
               height: 48.0,
             ),
             TextField(
+              keyboardType: TextInputType.emailAddress,
+              textAlign: TextAlign.center,
               onChanged: (value) {
-                //Do something with the user input.
+                email = value;
               },
               decoration: kTextFieldDecoration.copyWith(hintText: '이메일을 입력하세요'),
             ),
@@ -42,15 +50,33 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
               height: 8.0,
             ),
             TextField(
+              obscureText: true,
+              textAlign: TextAlign.center,
               onChanged: (value) {
-                //Do something with the user input.
+                password = value;
               },
               decoration: kTextFieldDecoration.copyWith(hintText: '비밀번호를 입력하세요'),
             ),
             SizedBox(
               height: 24.0,
             ),
-            RoundedButton(color: Colors.blueAccent, title: '회원가입', onPressed: null),
+            RoundedButton(
+              color: Colors.blueAccent, 
+              title: '회원가입', 
+              onPressed: () async {
+                // print(email);
+                // print(password);
+                try {
+                  final newUser = await _auth.createUserWithEmailAndPassword(email: email, password: password);
+                  if( newUser != null) {
+                    Navigator.pushNamed(context, ChatScreen.id);
+                  }
+                }
+                catch(e) {
+                  print(e);
+                }
+              },
+            ),
           ],
         ),
       ),
